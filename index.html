@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discover Andong | The Capital of Korean Spirit - Foreigner Travel Guide</title>
+    <meta name="description" content="Official digital travel guide for foreign tourists visiting Andong, South Korea. UNESCO World Heritage sites, itineraries, food guide, map, and Korean phrasebook.">
+    <meta name="keywords" content="Andong, Andong Travel, South Korea Tourism, Hahoe Folk Village, Wollyeonggyo Bridge, Andong Jjimdak, UNESCO Korea">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Leaflet CSS for Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body data-theme="dark">
+
+    <!-- Top Navigation Bar -->
+    <header class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">
+                <span class="logo-badge">안동</span>
+                <span class="logo-text">DISCOVER <strong>ANDONG</strong></span>
+            </a>
+            
+            <nav class="nav-menu" id="navMenu">
+                <a href="#hero" class="nav-link active" data-i18n="nav_home">Home</a>
+                <a href="#attractions" class="nav-link" data-i18n="nav_attractions">Attractions</a>
+                <a href="#map-section" class="nav-link" data-i18n="nav_map">Interactive Map</a>
+                <a href="#itinerary" class="nav-link" data-i18n="nav_itinerary">Itineraries</a>
+                <a href="#gourmet" class="nav-link" data-i18n="nav_food">Gourmet Food</a>
+                <a href="#essentials" class="nav-link" data-i18n="nav_essentials">Travel Tips</a>
+                <a href="#phrasebook" class="nav-link" data-i18n="nav_phrases">Phrasebook</a>
+            </nav>
+
+            <div class="nav-actions">
+                <!-- Saved Places Button -->
+                <button class="btn-icon" id="bookmarkBtn" title="Saved Places">
+                    <i class="fa-solid fa-bookmark"></i>
+                    <span class="badge" id="bookmarkCount">0</span>
+                </button>
+
+                <!-- Language Toggle Button (Korean <-> English) -->
+                <button class="lang-toggle-btn" id="langToggleBtn" title="언어 전환 (한국어 ↔ English)">
+                    <i class="fa-solid fa-globe"></i>
+                    <span id="langToggleLabel">🇺🇸 English</span>
+                </button>
+
+                <!-- Theme Toggle -->
+                <button class="btn-icon" id="themeToggle" title="Toggle Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+
+                <!-- Mobile Hamburger -->
+                <button class="mobile-toggle" id="mobileToggle">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-bg" style="background-image: url('assets/hahoe.jpg');"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fa-solid fa-landmark"></i> <span data-i18n="hero_badge">UNESCO World Heritage City</span>
+            </div>
+            <h1 class="hero-title" data-i18n="hero_title">Explore the Soul of Korea in Andong</h1>
+            <p class="hero-subtitle" data-i18n="hero_subtitle">Step into 600 years of living history, majestic Hanok villages, tranquil moonlight bridges, and legendary culinary treasures.</p>
+
+            <!-- Hero Quick Stats -->
+            <div class="hero-stats">
+                <div class="stat-card">
+                    <i class="fa-solid fa-train"></i>
+                    <div>
+                        <strong data-i18n="stat_ktx">2 Hours</strong>
+                        <span data-i18n="stat_ktx_desc">from Seoul via KTX Train</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fa-solid fa-torii-gate"></i>
+                    <div>
+                        <strong data-i18n="stat_unesco">2 UNESCO Sites</strong>
+                        <span data-i18n="stat_unesco_desc">Hahoe & Seowon Academies</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fa-solid fa-utensils"></i>
+                    <div>
+                        <strong data-i18n="stat_food">Famous Flavors</strong>
+                        <span data-i18n="stat_food_desc">Andong Jjimdak & Soju</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-buttons">
+                <a href="#attractions" class="btn btn-primary">
+                    <i class="fa-solid fa-compass"></i> <span data-i18n="btn_explore">Explore Attractions</span>
+                </a>
+                <a href="#itinerary" class="btn btn-glass">
+                    <i class="fa-solid fa-route"></i> <span data-i18n="btn_planner">Plan My Trip</span>
+                </a>
+                <button class="btn btn-outline" id="quickTaxiBtn">
+                    <i class="fa-solid fa-taxi"></i> <span data-i18n="btn_taxi_card">Taxi Helper Card</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search & Quick Filter Banner -->
+    <section class="search-bar-section">
+        <div class="container">
+            <div class="search-box-card">
+                <div class="search-input-wrap">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="searchInput" placeholder="Search attractions, foods, spots... (e.g. Hahoe, Bridge, Jjimdak)" data-i18n-placeholder="search_placeholder">
+                </div>
+                <div class="quick-tags">
+                    <span class="tag-title" data-i18n="popular_searches">Popular:</span>
+                    <button class="quick-tag" data-tag="unesco">#UNESCO</button>
+                    <button class="quick-tag" data-tag="night">#NightView</button>
+                    <button class="quick-tag" data-tag="food">#Jjimdak</button>
+                    <button class="quick-tag" data-tag="nature">#Nature</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Top Attractions Section -->
+    <section class="section" id="attractions">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="sub-heading" data-i18n="attractions_sub">MUST-VISIT SPOTS</span>
+                <h2 class="section-title" data-i18n="attractions_title">Top Destinations in Andong</h2>
+                <p class="section-desc" data-i18n="attractions_desc">Discover historic Hanok villages, ancient wooden temples, and picturesque river landscapes.</p>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="filter-bar" id="categoryFilter">
+                <button class="filter-btn active" data-filter="all" data-i18n="filter_all">All</button>
+                <button class="filter-btn" data-filter="unesco" data-i18n="filter_unesco">UNESCO Heritage</button>
+                <button class="filter-btn" data-filter="scenic" data-i18n="filter_scenic">Scenic & Nature</button>
+                <button class="filter-btn" data-filter="historic" data-i18n="filter_historic">History & Culture</button>
+                <button class="filter-btn" data-filter="night" data-i18n="filter_night">Night Views</button>
+            </div>
+
+            <!-- Attractions Grid -->
+            <div class="grid grid-3" id="attractionsGrid">
+                <!-- Dynamically populated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Map Section -->
+    <section class="section map-section-wrapper" id="map-section">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <span class="sub-heading" data-i18n="map_sub">NAVIGATION & EXPLORER</span>
+                    <h2 class="section-title" data-i18n="map_title">Interactive Andong Map</h2>
+                    <p class="section-desc" data-i18n="map_desc">Locate attractions, traditional food markets, and transit hubs across Andong.</p>
+                </div>
+                <div class="map-legend">
+                    <span class="legend-item"><i class="fa-solid fa-location-dot color-unesco"></i> <span data-i18n="leg_unesco">UNESCO</span></span>
+                    <span class="legend-item"><i class="fa-solid fa-location-dot color-scenic"></i> <span data-i18n="leg_scenic">Scenic</span></span>
+                    <span class="legend-item"><i class="fa-solid fa-location-dot color-food"></i> <span data-i18n="leg_food">Gourmet</span></span>
+                    <span class="legend-item"><i class="fa-solid fa-location-dot color-transit"></i> <span data-i18n="leg_transit">Station</span></span>
+                </div>
+            </div>
+
+            <div class="map-card">
+                <div id="andongMap"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recommended Itineraries & Trip Builder -->
+    <section class="section bg-card-section" id="itinerary">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="sub-heading" data-i18n="itinerary_sub">SMART TRAVEL PLANNING</span>
+                <h2 class="section-title" data-i18n="itinerary_title">Curated Itineraries & Custom Planner</h2>
+                <p class="section-desc" data-i18n="itinerary_desc">Select a battle-tested travel route or customize your own dream day in Andong.</p>
+            </div>
+
+            <!-- Tab Buttons for Preset vs Custom Planner -->
+            <div class="tab-header">
+                <button class="tab-btn active" data-tab="presetTab" data-i18n="tab_preset">Recommended Routes</button>
+                <button class="tab-btn" data-tab="customTab" data-i18n="tab_custom">My Custom Day Planner</button>
+            </div>
+
+            <!-- Preset Routes Content -->
+            <div class="tab-content active" id="presetTab">
+                <div class="grid grid-3">
+                    <!-- Route 1 -->
+                    <div class="itinerary-card">
+                        <div class="itinerary-badge">1 Day Express</div>
+                        <h3>Essential Andong in 1 Day</h3>
+                        <p class="text-muted">Perfect for first-time visitors taking a day trip from Seoul.</p>
+                        <ul class="itinerary-steps">
+                            <li><span class="time">09:30 AM</span> <strong>KTX Arrival</strong> at Andong Station</li>
+                            <li><span class="time">10:30 AM</span> <strong>Hahoe Folk Village</strong> (Mask Dance & Hanok Walk)</li>
+                            <li><span class="time">01:30 PM</span> <strong>Andong Jjimdak Street</strong> (Lunch)</li>
+                            <li><span class="time">03:30 PM</span> <strong>Byeongsan Seowon</strong> or <strong>Mammoth Bakery</strong></li>
+                            <li><span class="time">06:30 PM</span> <strong>Wollyeonggyo Bridge</strong> Night view & Starlight Boat</li>
+                        </ul>
+                        <button class="btn btn-outline btn-full load-itinerary-btn" data-preset="express">Load This Route into My Planner</button>
+                    </div>
+
+                    <!-- Route 2 -->
+                    <div class="itinerary-card highlight-border">
+                        <div class="itinerary-badge badge-gold">2 Days Deep Heritage</div>
+                        <h3>Cultural & Nature Escape (2 Days)</h3>
+                        <p class="text-muted">Immerse yourself in UNESCO heritage, tranquil temples, and secret gardens.</p>
+                        <ul class="itinerary-steps">
+                            <li><span class="time">Day 1</span> Hahoe Village + Mask Museum + Jjimdak + Wollyeonggyo Night View</li>
+                            <li><span class="time">Day 2 Morning</span> Dosan Seowon Confucian Academy & Nakgang Waterway Park</li>
+                            <li><span class="time">Day 2 Afternoon</span> Bongjeongsa Ancient Wooden Temple + Heotjesatbap Lunch</li>
+                        </ul>
+                        <button class="btn btn-primary btn-full load-itinerary-btn" data-preset="deep">Load This Route into My Planner</button>
+                    </div>
+
+                    <!-- Route 3 -->
+                    <div class="itinerary-card">
+                        <div class="itinerary-badge badge-romantic">Romantic & Photo</div>
+                        <h3>Scenic Photography & Healing Tour</h3>
+                        <p class="text-muted">The best spots for scenic photos, K-drama filming locations, and relaxing views.</p>
+                        <ul class="itinerary-steps">
+                            <li><span class="time">10:00 AM</span> <strong>Manhyujeong Pavilion</strong> ('Mr. Sunshine' Bridge)</li>
+                            <li><span class="time">01:00 PM</span> <strong>Nakgang Waterway Park</strong> ("Secret Forest")</li>
+                            <li><span class="time">03:30 PM</span> <strong>Wollyeonggyo Cafe Street</strong> & Moon Boat</li>
+                            <li><span class="time">06:00 PM</span> Sunset over Nakdong River</li>
+                        </ul>
+                        <button class="btn btn-outline btn-full load-itinerary-btn" data-preset="photo">Load This Route into My Planner</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Custom Planner Content -->
+            <div class="tab-content" id="customTab">
+                <div class="planner-layout">
+                    <div class="planner-sidebar">
+                        <h4 data-i18n="add_places_title">Available Places</h4>
+                        <p class="text-xs text-muted" data-i18n="add_places_hint">Click "+ Add" to put a spot in your schedule.</p>
+                        <div class="planner-pool" id="plannerPool">
+                            <!-- Dynamic list of places to add -->
+                        </div>
+                    </div>
+                    
+                    <div class="planner-main">
+                        <div class="planner-header-bar">
+                            <h4><i class="fa-solid fa-list-check"></i> <span data-i18n="my_schedule_title">My Custom Schedule</span></h4>
+                            <div class="planner-stats-bar">
+                                <span><i class="fa-solid fa-location-dot"></i> <span id="scheduleCount">0</span> Spots</span>
+                                <span><i class="fa-solid fa-clock"></i> Est. ~<span id="scheduleTime">0</span> Hours</span>
+                                <button class="btn btn-xs btn-danger" id="clearScheduleBtn"><i class="fa-solid fa-trash"></i> Reset</button>
+                            </div>
+                        </div>
+
+                        <div class="planner-timeline" id="plannerTimeline">
+                            <div class="empty-planner-msg">
+                                <i class="fa-solid fa-calendar-plus"></i>
+                                <p data-i18n="empty_planner">Your itinerary is empty. Click "+ Add" on the left spots or choose a preset route!</p>
+                            </div>
+                        </div>
+
+                        <div class="planner-actions">
+                            <button class="btn btn-primary" id="printScheduleBtn"><i class="fa-solid fa-print"></i> Print / Save PDF</button>
+                            <button class="btn btn-glass" id="shareScheduleBtn"><i class="fa-solid fa-share-nodes"></i> Copy Summary</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gourmet Food Guide -->
+    <section class="section" id="gourmet">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="sub-heading" data-i18n="gourmet_sub">GASTRONOMIC ADVENTURE</span>
+                <h2 class="section-title" data-i18n="gourmet_title">Famous Foods & Drinks of Andong</h2>
+                <p class="section-desc" data-i18n="gourmet_desc">Savory braised chicken, salted mackerel, royal ritual rice, and world-famous bakeries.</p>
+            </div>
+
+            <div class="grid grid-2" id="foodGrid">
+                <!-- Dynamically Populated Food Items -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Travel Essentials & Local Transport Guide -->
+    <section class="section bg-card-section" id="essentials">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="sub-heading" data-i18n="essentials_sub">PRACTICAL ADVICE FOR FOREIGNERS</span>
+                <h2 class="section-title" data-i18n="essentials_title">Travel Essentials & Getting Around</h2>
+                <p class="section-desc" data-i18n="essentials_desc">Everything you need to know about train routes, buses, taxi tips, and emergency helplines.</p>
+            </div>
+
+            <div class="grid grid-3">
+                <!-- Transportation -->
+                <div class="info-card">
+                    <div class="info-icon"><i class="fa-solid fa-train-subway"></i></div>
+                    <h3>How to Get to Andong</h3>
+                    <ul class="info-list">
+                        <li><strong>From Seoul (KTX-Eum):</strong> Takes ~2 hours from Cheongnyangni Station (청량리역) directly to Andong Station (안동역).</li>
+                        <li><strong>From East Seoul Bus Terminal:</strong> Express buses run every 30 mins (approx 2.5 hours).</li>
+                        <li><strong>From Busan:</strong> Mugunghwa Train or Intercity Bus (~2.5 to 3 hours).</li>
+                    </ul>
+                </div>
+
+                <!-- Local Transit & Taxis -->
+                <div class="info-card">
+                    <div class="info-icon"><i class="fa-solid fa-bus"></i></div>
+                    <h3>Getting Around Town</h3>
+                    <ul class="info-list">
+                        <li><strong>Bus #210 to Hahoe Village:</strong> Departs from Andong Station / Bus Terminal. Runs every 30-40 minutes.</li>
+                        <li><strong>T-Money Card:</strong> T-Money and major foreign credit cards are widely accepted on city buses.</li>
+                        <li><strong>Taxis & Kakao T:</strong> Taxis are affordable in Andong. Use the Kakao T app or show our Korean Taxi Cards!</li>
+                    </ul>
+                </div>
+
+                <!-- Emergency & Tourist Help -->
+                <div class="info-card">
+                    <div class="info-icon"><i class="fa-solid fa-headset"></i></div>
+                    <h3>Tourist Assistance & Helpline</h3>
+                    <ul class="info-list">
+                        <li><strong>1330 Korea Travel Hotline:</strong> Free 24/7 translation & tourist support in English, Chinese, Japanese. Dial <strong>1330</strong>.</li>
+                        <li><strong>Emergency Services:</strong> Police (112), Fire & Ambulance (119).</li>
+                        <li><strong>Tourist Info Center:</strong> Located right outside Andong Station Exit 1. Free English maps & brochures available.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Korean Phrasebook for Foreigners -->
+    <section class="section" id="phrasebook">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="sub-heading" data-i18n="phrasebook_sub">AUDIO-ENABLED DICTIONARY</span>
+                <h2 class="section-title" data-i18n="phrasebook_title">Essential Korean Phrases for Visitors</h2>
+                <p class="section-desc" data-i18n="phrasebook_desc">Tap the 🔊 audio button to listen to native Korean pronunciation using text-to-speech!</p>
+            </div>
+
+            <!-- Phrase Category Filter -->
+            <div class="phrase-filter-bar">
+                <button class="phrase-tab active" data-cat="all">All Phrases</button>
+                <button class="phrase-tab" data-cat="greetings">Greetings & Basics</button>
+                <button class="phrase-tab" data-cat="taxi">Taxi & Directions</button>
+                <button class="phrase-tab" data-cat="restaurant">Dining & Ordering</button>
+                <button class="phrase-tab" data-cat="shopping">Shopping & Emergency</button>
+            </div>
+
+            <div class="grid grid-2" id="phraseGrid">
+                <!-- Dynamically populated phrase cards -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <div class="nav-logo">
+                    <span class="logo-badge">안동</span>
+                    <span class="logo-text">DISCOVER <strong>ANDONG</strong></span>
+                </div>
+                <p>Your ultimate digital companion to exploring the cultural heartland of South Korea. Built for international travelers with love.</p>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <a href="#attractions">UNESCO Sites</a>
+                <a href="#itinerary">Day Trip Routes</a>
+                <a href="#gourmet">Andong Jjimdak Guide</a>
+                <a href="#phrasebook">Audio Phrasebook</a>
+            </div>
+
+            <div class="footer-emergency">
+                <h4>Helpful Contacts</h4>
+                <p><i class="fa-solid fa-phone"></i> Korea Travel Hotline: <strong>1330</strong></p>
+                <p><i class="fa-solid fa-shield-halved"></i> Police: <strong>112</strong> | Medical: <strong>119</strong></p>
+                <p><i class="fa-solid fa-train"></i> Korail Train Info: <strong>1544-7788</strong></p>
+            </div>
+        </div>
+        <div class="footer-bottom text-center">
+            <p>&copy; 2026 Discover Andong Guide. Built with Vanilla HTML/CSS/JS. No framework or server required.</p>
+        </div>
+    </footer>
+
+    <!-- Saved Bookmarks Modal Drawer -->
+    <div class="modal" id="bookmarkModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content modal-right">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-bookmark text-gold"></i> Saved Places & Favorites</h3>
+                <button class="modal-close" id="closeBookmarkModal">&times;</button>
+            </div>
+            <div class="modal-body" id="bookmarkList">
+                <!-- Dynamically populated bookmarks -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Taxi Card Modal -->
+    <div class="modal" id="taxiModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content text-center max-w-md">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-taxi text-gold"></i> Show to Taxi Driver</h3>
+                <button class="modal-close" id="closeTaxiModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="text-muted text-sm mb-3">Show your phone screen directly to your Korean taxi driver:</p>
+                <div class="taxi-card-display">
+                    <div class="taxi-icon-large"><i class="fa-solid fa-taxi"></i></div>
+                    <div class="taxi-kr-phrase" id="taxiKrPhrase">기사님, 안동 하회마을로 가주세요.</div>
+                    <div class="taxi-en-trans" id="taxiEnTrans">"Driver, please take me to Andong Hahoe Folk Village."</div>
+                    <div class="taxi-address-box">
+                        <span class="text-xs text-muted">Korean Address / Destination:</span>
+                        <strong id="taxiKrAddress">경상북도 안동시 풍천면 하회종가길 40</strong>
+                    </div>
+                </div>
+                <div class="taxi-modal-actions mt-4">
+                    <button class="btn btn-primary btn-full" id="speakTaxiPhraseBtn">
+                        <i class="fa-solid fa-volume-high"></i> Play Audio Pronunciation
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detail Modal for Attraction -->
+    <div class="modal" id="detailModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content max-w-lg">
+            <div class="modal-header">
+                <h3 id="modalTitle">Attraction Details</h3>
+                <button class="modal-close" id="closeDetailModal">&times;</button>
+            </div>
+            <div class="modal-body" id="detailModalBody">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS for Map -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
+    <!-- Custom JS -->
+    <script src="app.js"></script>
+</body>
+</html>
